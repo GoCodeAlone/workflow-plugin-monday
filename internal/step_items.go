@@ -35,7 +35,10 @@ func (s *createItemStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 		}
 	}`
 	if colVals != nil {
-		b, _ := json.Marshal(colVals)
+		b, err := json.Marshal(colVals)
+		if err != nil {
+			return &sdk.StepResult{Output: map[string]any{"error": "marshal column_values: " + err.Error()}}, nil
+		}
 		vars["columnValues"] = string(b)
 	}
 	var result struct {
@@ -137,7 +140,10 @@ func (s *updateItemStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 	if colVals == nil {
 		return &sdk.StepResult{Output: map[string]any{"error": "column_values is required"}}, nil
 	}
-	b, _ := json.Marshal(colVals)
+	b, err := json.Marshal(colVals)
+	if err != nil {
+		return &sdk.StepResult{Output: map[string]any{"error": "marshal column_values: " + err.Error()}}, nil
+	}
 	query := `mutation ($itemId: ID!, $boardId: ID!, $columnValues: JSON!) {
 		change_multiple_column_values(item_id: $itemId, board_id: $boardId, column_values: $columnValues) { id name }
 	}`

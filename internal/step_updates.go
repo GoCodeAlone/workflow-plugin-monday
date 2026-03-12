@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"encoding/json"
 
 	sdk "github.com/GoCodeAlone/workflow/plugin/external/sdk"
 )
@@ -56,14 +57,17 @@ func (s *listUpdatesStep) Execute(ctx context.Context, _ map[string]any, _ map[s
 		queryStr = `query ($ids: [ID!], $limit: Int!) { items(ids: $ids) { updates(limit: $limit) { id body created_at } } }`
 		vars["ids"] = []string{itemID}
 	}
-	var data map[string]any
 	rawData, err := client.Execute(ctx, queryStr, vars)
 	if err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	_ = rawData
-	_ = data
-	return &sdk.StepResult{Output: map[string]any{"raw": string(rawData)}}, nil
+	var result struct {
+		Updates []map[string]any `json:"updates"`
+	}
+	if err := json.Unmarshal(rawData, &result); err != nil {
+		return &sdk.StepResult{Output: map[string]any{"error": "unmarshal: " + err.Error()}}, nil
+	}
+	return &sdk.StepResult{Output: map[string]any{"updates": result.Updates}}, nil
 }
 
 type editUpdateStep struct{ name, moduleName string }

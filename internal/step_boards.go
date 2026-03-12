@@ -2,7 +2,6 @@ package internal
 
 import (
 	"context"
-	"encoding/json"
 
 	sdk "github.com/GoCodeAlone/workflow/plugin/external/sdk"
 )
@@ -205,7 +204,5 @@ func (s *archiveBoardStep) Execute(ctx context.Context, _ map[string]any, _ map[
 	if err := client.ExecuteInto(ctx, query, map[string]any{"boardId": boardID}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	// suppress unused import warning
-	_ = json.RawMessage(nil)
 	return &sdk.StepResult{Output: result.ArchiveBoard}, nil
 }

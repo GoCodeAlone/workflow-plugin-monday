@@ -26,7 +26,10 @@ func (s *createSubitemStep) Execute(ctx context.Context, _ map[string]any, _ map
 	vars := map[string]any{"parentItemId": parentItemID, "itemName": itemName}
 	colVals := resolveMap("column_values", current, config)
 	if colVals != nil {
-		b, _ := json.Marshal(colVals)
+		b, err := json.Marshal(colVals)
+		if err != nil {
+			return &sdk.StepResult{Output: map[string]any{"error": "marshal column_values: " + err.Error()}}, nil
+		}
 		vars["columnValues"] = string(b)
 	}
 	query := `mutation ($parentItemId: ID!, $itemName: String!, $columnValues: JSON) {
@@ -88,7 +91,10 @@ func (s *updateSubitemStep) Execute(ctx context.Context, _ map[string]any, _ map
 	if itemID == "" || boardID == "" || colVals == nil {
 		return &sdk.StepResult{Output: map[string]any{"error": "item_id, board_id, and column_values are required"}}, nil
 	}
-	b, _ := json.Marshal(colVals)
+	b, err := json.Marshal(colVals)
+	if err != nil {
+		return &sdk.StepResult{Output: map[string]any{"error": "marshal column_values: " + err.Error()}}, nil
+	}
 	query := `mutation ($itemId: ID!, $boardId: ID!, $columnValues: JSON!) {
 		change_multiple_column_values(item_id: $itemId, board_id: $boardId, column_values: $columnValues) { id name }
 	}`

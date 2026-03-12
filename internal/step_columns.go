@@ -58,7 +58,10 @@ func (s *changeColumnValueStep) Execute(ctx context.Context, _ map[string]any, _
 	// value may be JSON string
 	valMap := resolveMap("value", current, config)
 	if valMap != nil {
-		b, _ := json.Marshal(valMap)
+		b, err := json.Marshal(valMap)
+		if err != nil {
+			return &sdk.StepResult{Output: map[string]any{"error": "marshal value: " + err.Error()}}, nil
+		}
 		value = string(b)
 	}
 	query := `mutation ($itemId: ID!, $boardId: ID!, $columnId: String!, $value: JSON!) {
