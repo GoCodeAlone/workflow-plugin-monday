@@ -102,16 +102,6 @@ func toInt64(v any) int64 {
 	return 0
 }
 
-// toAnySlice converts []map[string]any to []any for protobuf structpb compatibility.
-// structpb.NewStruct() silently fails on []map[string]any but works with []any.
-func toAnySlice(s []map[string]any) []any {
-	result := make([]any, len(s))
-	for i, m := range s {
-		result[i] = m
-	}
-	return result
-}
-
 func toFloat64(v any) float64 {
 	switch t := v.(type) {
 	case float64:

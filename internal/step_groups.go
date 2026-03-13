@@ -52,7 +52,7 @@ func (s *listGroupsStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 	query := `query ($ids: [ID!]) { boards(ids: $ids) { groups { id title color } } }`
 	var result struct {
 		Boards []struct {
-			Groups []map[string]any `json:"groups"`
+			Groups []any `json:"groups"`
 		} `json:"boards"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"ids": []string{boardID}}, &result); err != nil {
@@ -61,7 +61,7 @@ func (s *listGroupsStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 	if len(result.Boards) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"groups": []any{}}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"groups": toAnySlice(result.Boards[0].Groups)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"groups": result.Boards[0].Groups}}, nil
 }
 
 type updateGroupStep struct{ name, moduleName string }
@@ -115,12 +115,12 @@ func (s *moveGroupStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 		move_items_to_board(board_id: $boardId, group_id: $groupId, target_board_id: $targetBoardId) { id }
 	}`
 	var result struct {
-		MoveItemsToBoard []map[string]any `json:"move_items_to_board"`
+		MoveItemsToBoard []any `json:"move_items_to_board"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"boardId": boardID, "groupId": groupID, "targetBoardId": targetBoardID}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"items": toAnySlice(result.MoveItemsToBoard)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"items": result.MoveItemsToBoard}}, nil
 }
 
 type deleteGroupStep struct{ name, moduleName string }

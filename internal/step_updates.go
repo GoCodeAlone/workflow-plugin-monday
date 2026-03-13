@@ -62,12 +62,12 @@ func (s *listUpdatesStep) Execute(ctx context.Context, _ map[string]any, _ map[s
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
 	var result struct {
-		Updates []map[string]any `json:"updates"`
+		Updates []any `json:"updates"`
 	}
 	if err := json.Unmarshal(rawData, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": "unmarshal: " + err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"updates": toAnySlice(result.Updates)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"updates": result.Updates}}, nil
 }
 
 type editUpdateStep struct{ name, moduleName string }

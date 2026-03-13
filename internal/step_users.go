@@ -23,12 +23,12 @@ func (s *listUsersStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	}
 	query := `query ($limit: Int!) { users(limit: $limit) { id name email } }`
 	var result struct {
-		Users []map[string]any `json:"users"`
+		Users []any `json:"users"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"limit": limit}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"users": toAnySlice(result.Users)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"users": result.Users}}, nil
 }
 
 type fetchUserStep struct{ name, moduleName string }
@@ -48,7 +48,7 @@ func (s *fetchUserStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	}
 	query := `query ($ids: [ID!]) { users(ids: $ids) { id name email } }`
 	var result struct {
-		Users []map[string]any `json:"users"`
+		Users []any `json:"users"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"ids": []string{userID}}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
@@ -56,7 +56,7 @@ func (s *fetchUserStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	if len(result.Users) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"error": "user not found"}}, nil
 	}
-	return &sdk.StepResult{Output: result.Users[0]}, nil
+	return &sdk.StepResult{Output: result.Users[0].(map[string]any)}, nil
 }
 
 type inviteUserStep struct{ name, moduleName string }

@@ -60,7 +60,7 @@ func (s *listFilesStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	}`
 	var result struct {
 		Items []struct {
-			Assets []map[string]any `json:"assets"`
+			Assets []any `json:"assets"`
 		} `json:"items"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"ids": []string{itemID}, "limit": limit}, &result); err != nil {
@@ -69,5 +69,5 @@ func (s *listFilesStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	if len(result.Items) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"files": []any{}}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"files": toAnySlice(result.Items[0].Assets)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"files": result.Items[0].Assets}}, nil
 }

@@ -107,7 +107,7 @@ func TestListBoardsStep_Success(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	boards, ok := result.Output["boards"].([]map[string]any)
+	boards, ok := result.Output["boards"].([]any)
 	if !ok {
 		t.Fatalf("expected boards slice, got %T", result.Output["boards"])
 	}

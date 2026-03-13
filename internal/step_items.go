@@ -78,7 +78,7 @@ func (s *listItemsStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 		Boards []struct {
 			ItemsPage struct {
 				Cursor string           `json:"cursor"`
-				Items  []map[string]any `json:"items"`
+				Items  []any `json:"items"`
 			} `json:"items_page"`
 		} `json:"boards"`
 	}
@@ -89,7 +89,7 @@ func (s *listItemsStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 		return &sdk.StepResult{Output: map[string]any{"items": []any{}}}, nil
 	}
 	page := result.Boards[0].ItemsPage
-	return &sdk.StepResult{Output: map[string]any{"items": toAnySlice(page.Items), "cursor": page.Cursor}}, nil
+	return &sdk.StepResult{Output: map[string]any{"items": page.Items, "cursor": page.Cursor}}, nil
 }
 
 type fetchItemStep struct{ name, moduleName string }
@@ -109,7 +109,7 @@ func (s *fetchItemStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	}
 	query := `query ($ids: [ID!]) { items(ids: $ids) { id name state board { id name } } }`
 	var result struct {
-		Items []map[string]any `json:"items"`
+		Items []any `json:"items"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"ids": []string{itemID}}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
@@ -117,7 +117,7 @@ func (s *fetchItemStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	if len(result.Items) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"error": "item not found"}}, nil
 	}
-	return &sdk.StepResult{Output: result.Items[0]}, nil
+	return &sdk.StepResult{Output: result.Items[0].(map[string]any)}, nil
 }
 
 type updateItemStep struct{ name, moduleName string }
@@ -257,10 +257,10 @@ func (s *searchItemsStep) Execute(ctx context.Context, _ map[string]any, _ map[s
 		items_by_multiple_column_values(limit: $limit, column_id: "name", column_value: $term) { id name state }
 	}`
 	var result struct {
-		Items []map[string]any `json:"items_by_multiple_column_values"`
+		Items []any `json:"items_by_multiple_column_values"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"term": term, "limit": limit}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"items": toAnySlice(result.Items)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"items": result.Items}}, nil
 }

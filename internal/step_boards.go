@@ -56,12 +56,12 @@ func (s *listBoardsStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 	}
 	query := `query ($limit: Int!) { boards(limit: $limit) { id name board_kind state description } }`
 	var result struct {
-		Boards []map[string]any `json:"boards"`
+		Boards []any `json:"boards"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"limit": limit}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"boards": toAnySlice(result.Boards)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"boards": result.Boards}}, nil
 }
 
 // fetchBoardStep implements step.monday_fetch_board
@@ -82,7 +82,7 @@ func (s *fetchBoardStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 	}
 	query := `query ($ids: [ID!]) { boards(ids: $ids) { id name board_kind state description } }`
 	var result struct {
-		Boards []map[string]any `json:"boards"`
+		Boards []any `json:"boards"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"ids": []string{boardID}}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
@@ -90,7 +90,7 @@ func (s *fetchBoardStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 	if len(result.Boards) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"error": "board not found"}}, nil
 	}
-	return &sdk.StepResult{Output: result.Boards[0]}, nil
+	return &sdk.StepResult{Output: result.Boards[0].(map[string]any)}, nil
 }
 
 // updateBoardStep (fetchBoardStep returns single map - no slice fix needed) implements step.monday_update_board

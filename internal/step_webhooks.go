@@ -52,12 +52,12 @@ func (s *listWebhooksStep) Execute(ctx context.Context, _ map[string]any, _ map[
 	}
 	query := `query ($boardId: ID!) { webhooks(board_id: $boardId) { id board_id event url } }`
 	var result struct {
-		Webhooks []map[string]any `json:"webhooks"`
+		Webhooks []any `json:"webhooks"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"boardId": boardID}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"webhooks": toAnySlice(result.Webhooks)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"webhooks": result.Webhooks}}, nil
 }
 
 type deleteWebhookStep struct{ name, moduleName string }

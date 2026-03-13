@@ -25,7 +25,7 @@ func (s *getColumnValuesStep) Execute(ctx context.Context, _ map[string]any, _ m
 	query := `query ($ids: [ID!]) { items(ids: $ids) { column_values { id text value } } }`
 	var result struct {
 		Items []struct {
-			ColumnValues []map[string]any `json:"column_values"`
+			ColumnValues []any `json:"column_values"`
 		} `json:"items"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"ids": []string{itemID}}, &result); err != nil {
@@ -34,7 +34,7 @@ func (s *getColumnValuesStep) Execute(ctx context.Context, _ map[string]any, _ m
 	if len(result.Items) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"column_values": []any{}}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"column_values": toAnySlice(result.Items[0].ColumnValues)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"column_values": result.Items[0].ColumnValues}}, nil
 }
 
 type changeColumnValueStep struct{ name, moduleName string }

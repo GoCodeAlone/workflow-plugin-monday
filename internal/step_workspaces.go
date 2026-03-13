@@ -54,12 +54,12 @@ func (s *listWorkspacesStep) Execute(ctx context.Context, _ map[string]any, _ ma
 	}
 	query := `query ($limit: Int!) { workspaces(limit: $limit) { id name kind } }`
 	var result struct {
-		Workspaces []map[string]any `json:"workspaces"`
+		Workspaces []any `json:"workspaces"`
 	}
 	if err := client.ExecuteInto(ctx, query, map[string]any{"limit": limit}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"workspaces": toAnySlice(result.Workspaces)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"workspaces": result.Workspaces}}, nil
 }
 
 type updateWorkspaceStep struct{ name, moduleName string }

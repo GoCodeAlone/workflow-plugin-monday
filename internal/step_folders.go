@@ -52,12 +52,12 @@ func (s *listFoldersStep) Execute(ctx context.Context, _ map[string]any, _ map[s
 	}
 	query := `query ($workspaceIds: [ID]) { folders(workspace_ids: $workspaceIds) { id name } }`
 	var result struct {
-		Folders []map[string]any `json:"folders"`
+		Folders []any `json:"folders"`
 	}
 	if err := client.ExecuteInto(ctx, query, vars, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"folders": toAnySlice(result.Folders)}}, nil
+	return &sdk.StepResult{Output: map[string]any{"folders": result.Folders}}, nil
 }
 
 type updateFolderStep struct{ name, moduleName string }
