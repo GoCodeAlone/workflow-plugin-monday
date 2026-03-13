@@ -59,7 +59,7 @@ func (s *listDocumentsStep) Execute(ctx context.Context, _ map[string]any, _ map
 	if err := client.ExecuteInto(ctx, query, map[string]any{"limit": limit}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"documents": result.Docs}}, nil
+	return &sdk.StepResult{Output: map[string]any{"documents": toAnySlice(result.Docs)}}, nil
 }
 
 type updateDocumentStep struct{ name, moduleName string }

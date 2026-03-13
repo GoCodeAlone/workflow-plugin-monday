@@ -71,7 +71,7 @@ func (s *listSubitemsStep) Execute(ctx context.Context, _ map[string]any, _ map[
 	if len(result.Items) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"subitems": []any{}}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"subitems": result.Items[0].Subitems}}, nil
+	return &sdk.StepResult{Output: map[string]any{"subitems": toAnySlice(result.Items[0].Subitems)}}, nil
 }
 
 type updateSubitemStep struct{ name, moduleName string }

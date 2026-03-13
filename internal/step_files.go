@@ -69,5 +69,5 @@ func (s *listFilesStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	if len(result.Items) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"files": []any{}}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"files": result.Items[0].Assets}}, nil
+	return &sdk.StepResult{Output: map[string]any{"files": toAnySlice(result.Items[0].Assets)}}, nil
 }

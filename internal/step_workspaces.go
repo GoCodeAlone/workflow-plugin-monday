@@ -59,7 +59,7 @@ func (s *listWorkspacesStep) Execute(ctx context.Context, _ map[string]any, _ ma
 	if err := client.ExecuteInto(ctx, query, map[string]any{"limit": limit}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"workspaces": result.Workspaces}}, nil
+	return &sdk.StepResult{Output: map[string]any{"workspaces": toAnySlice(result.Workspaces)}}, nil
 }
 
 type updateWorkspaceStep struct{ name, moduleName string }

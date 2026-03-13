@@ -24,7 +24,7 @@ func (s *listTeamsStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	if err := client.ExecuteInto(ctx, query, nil, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"teams": result.Teams}}, nil
+	return &sdk.StepResult{Output: map[string]any{"teams": toAnySlice(result.Teams)}}, nil
 }
 
 type addTeamToWorkspaceStep struct{ name, moduleName string }

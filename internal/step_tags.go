@@ -24,7 +24,7 @@ func (s *listTagsStep) Execute(ctx context.Context, _ map[string]any, _ map[stri
 	if err := client.ExecuteInto(ctx, query, nil, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"tags": result.Tags}}, nil
+	return &sdk.StepResult{Output: map[string]any{"tags": toAnySlice(result.Tags)}}, nil
 }
 
 type createTagStep struct{ name, moduleName string }

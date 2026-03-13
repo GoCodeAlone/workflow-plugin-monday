@@ -61,7 +61,7 @@ func (s *listGroupsStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 	if len(result.Boards) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"groups": []any{}}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"groups": result.Boards[0].Groups}}, nil
+	return &sdk.StepResult{Output: map[string]any{"groups": toAnySlice(result.Boards[0].Groups)}}, nil
 }
 
 type updateGroupStep struct{ name, moduleName string }
@@ -120,7 +120,7 @@ func (s *moveGroupStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 	if err := client.ExecuteInto(ctx, query, map[string]any{"boardId": boardID, "groupId": groupID, "targetBoardId": targetBoardID}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"items": result.MoveItemsToBoard}}, nil
+	return &sdk.StepResult{Output: map[string]any{"items": toAnySlice(result.MoveItemsToBoard)}}, nil
 }
 
 type deleteGroupStep struct{ name, moduleName string }

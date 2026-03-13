@@ -57,7 +57,7 @@ func (s *listFoldersStep) Execute(ctx context.Context, _ map[string]any, _ map[s
 	if err := client.ExecuteInto(ctx, query, vars, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"folders": result.Folders}}, nil
+	return &sdk.StepResult{Output: map[string]any{"folders": toAnySlice(result.Folders)}}, nil
 }
 
 type updateFolderStep struct{ name, moduleName string }

@@ -89,7 +89,7 @@ func (s *listItemsStep) Execute(ctx context.Context, _ map[string]any, _ map[str
 		return &sdk.StepResult{Output: map[string]any{"items": []any{}}}, nil
 	}
 	page := result.Boards[0].ItemsPage
-	return &sdk.StepResult{Output: map[string]any{"items": page.Items, "cursor": page.Cursor}}, nil
+	return &sdk.StepResult{Output: map[string]any{"items": toAnySlice(page.Items), "cursor": page.Cursor}}, nil
 }
 
 type fetchItemStep struct{ name, moduleName string }
@@ -262,5 +262,5 @@ func (s *searchItemsStep) Execute(ctx context.Context, _ map[string]any, _ map[s
 	if err := client.ExecuteInto(ctx, query, map[string]any{"term": term, "limit": limit}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"items": result.Items}}, nil
+	return &sdk.StepResult{Output: map[string]any{"items": toAnySlice(result.Items)}}, nil
 }

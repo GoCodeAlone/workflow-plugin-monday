@@ -61,7 +61,7 @@ func (s *listBoardsStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 	if err := client.ExecuteInto(ctx, query, map[string]any{"limit": limit}, &result); err != nil {
 		return &sdk.StepResult{Output: map[string]any{"error": err.Error()}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"boards": result.Boards}}, nil
+	return &sdk.StepResult{Output: map[string]any{"boards": toAnySlice(result.Boards)}}, nil
 }
 
 // fetchBoardStep implements step.monday_fetch_board
@@ -93,7 +93,7 @@ func (s *fetchBoardStep) Execute(ctx context.Context, _ map[string]any, _ map[st
 	return &sdk.StepResult{Output: result.Boards[0]}, nil
 }
 
-// updateBoardStep implements step.monday_update_board
+// updateBoardStep (fetchBoardStep returns single map - no slice fix needed) implements step.monday_update_board
 type updateBoardStep struct{ name, moduleName string }
 
 func newUpdateBoardStep(name string, config map[string]any) (sdk.StepInstance, error) {

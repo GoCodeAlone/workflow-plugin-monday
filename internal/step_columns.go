@@ -34,7 +34,7 @@ func (s *getColumnValuesStep) Execute(ctx context.Context, _ map[string]any, _ m
 	if len(result.Items) == 0 {
 		return &sdk.StepResult{Output: map[string]any{"column_values": []any{}}}, nil
 	}
-	return &sdk.StepResult{Output: map[string]any{"column_values": result.Items[0].ColumnValues}}, nil
+	return &sdk.StepResult{Output: map[string]any{"column_values": toAnySlice(result.Items[0].ColumnValues)}}, nil
 }
 
 type changeColumnValueStep struct{ name, moduleName string }
