@@ -6,6 +6,12 @@ import (
 	sdk "github.com/GoCodeAlone/workflow/plugin/external/sdk"
 )
 
+// Version is set at build time via -ldflags
+// "-X github.com/GoCodeAlone/workflow-plugin-monday/internal.Version=X.Y.Z".
+// Default is a bare semver so plugin loaders that validate semver accept
+// unreleased dev builds; goreleaser overrides with the real release tag.
+var Version = "0.0.0"
+
 type mondayPlugin struct{}
 
 func NewMondayPlugin() sdk.PluginProvider {
@@ -15,7 +21,7 @@ func NewMondayPlugin() sdk.PluginProvider {
 func (p *mondayPlugin) Manifest() sdk.PluginManifest {
 	return sdk.PluginManifest{
 		Name:        "workflow-plugin-monday",
-		Version:     "0.1.0",
+		Version:     Version,
 		Author:      "GoCodeAlone",
 		Description: "monday.com integration plugin (~57 step types covering all monday.com resources)",
 	}
