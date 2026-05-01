@@ -1,0 +1,295 @@
+{
+  "version": "1",
+  "contracts": [
+    {
+      "kind": "module",
+      "type": "monday.provider",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_add_team_to_workspace",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_archive_board",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_archive_item",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_change_column_value",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_board",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_column",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_document",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_folder",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_group",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_item",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_notification",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_subitem",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_tag",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_update",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_webhook",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_create_workspace",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_delete_board",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_delete_folder",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_delete_group",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_delete_item",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_delete_subitem",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_delete_update",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_delete_webhook",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_delete_workspace",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_duplicate_board",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_edit_update",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_fetch_board",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_fetch_item",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_fetch_user",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_get_column_values",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_invite_user",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_boards",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_documents",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_files",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_folders",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_groups",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_items",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_subitems",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_tags",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_teams",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_updates",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_users",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_webhooks",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_list_workspaces",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_move_group",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_move_item",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_mutate",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_query",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_search_items",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_update_board",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_update_document",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_update_folder",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_update_group",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_update_item",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_update_subitem",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_update_workspace",
+      "mode": "strict"
+    },
+    {
+      "kind": "step",
+      "type": "step.monday_upload_file",
+      "mode": "strict"
+    }
+  ]
+}
