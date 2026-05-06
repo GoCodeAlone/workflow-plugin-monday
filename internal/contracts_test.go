@@ -2,17 +2,25 @@ package internal
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"reflect"
 	"slices"
+	"strings"
 	"testing"
 )
 
 type manifestFile struct {
+	Version string `json:"version"`
 	Capabilities struct {
 		ModuleTypes []string `json:"moduleTypes"`
 		StepTypes   []string `json:"stepTypes"`
 	} `json:"capabilities"`
+	Downloads []struct {
+		OS   string `json:"os"`
+		Arch string `json:"arch"`
+		URL  string `json:"url"`
+	} `json:"downloads"`
 }
 
 type contractsFile struct {
@@ -34,6 +42,25 @@ func TestPluginManifestAndContractsMatchRuntimeTypes(t *testing.T) {
 	assertStringSetEqual(t, "manifest stepTypes", manifest.Capabilities.StepTypes, plugin.StepTypes())
 	assertStringSetEqual(t, "module contracts", contractTypes(t, contracts.Contracts, "module"), plugin.ModuleTypes())
 	assertStringSetEqual(t, "step contracts", contractTypes(t, contracts.Contracts, "step"), plugin.StepTypes())
+}
+
+func TestPluginManifestVersionAndDownloadsConsistent(t *testing.T) {
+	manifest := readJSONFile[manifestFile](t, "../plugin.json")
+
+	if manifest.Version == "" {
+		t.Fatal("plugin.json: version field is empty")
+	}
+
+	if len(manifest.Downloads) == 0 {
+		t.Fatal("plugin.json: downloads field is empty")
+	}
+
+	wantTag := fmt.Sprintf("/v%s/", manifest.Version)
+	for _, dl := range manifest.Downloads {
+		if !strings.Contains(dl.URL, wantTag) {
+			t.Errorf("plugin.json: download URL %q does not contain version tag %s", dl.URL, wantTag)
+		}
+	}
 }
 
 func readJSONFile[T any](t *testing.T, path string) T {
