@@ -1,0 +1,23 @@
+name: wfctl strict contracts
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  wfctl-strict-contracts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      GOPRIVATE: github.com/GoCodeAlone/*
+      GONOSUMCHECK: github.com/GoCodeAlone/*
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Configure Go private modules
+        run: git config --global url."https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
+      - name: Validate strict plugin contracts
+        run: GOWORK=off go run github.com/GoCodeAlone/workflow/cmd/wfctl@v0.20.1 plugin validate --file plugin.json --strict-contracts
