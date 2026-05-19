@@ -1,0 +1,16 @@
+# Minimal config exercising workflow-plugin-monday.
+# Schema-validate with: wfctl validate --skip-unknown-types examples/minimal/config.yaml
+
+version: 1
+
+modules:
+  - name: monday-provider
+    type: monday.provider
+    config: {}
+
+workflows:
+  pipeline:
+    steps:
+      - name: example
+        type: step.monday_create_board
+        config: {}
