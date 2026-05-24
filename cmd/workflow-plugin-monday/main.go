@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	sdk.Serve(internal.NewMondayPlugin())
+	sdk.Serve(internal.NewMondayPlugin(), sdk.WithBuildVersion(sdk.ResolveBuildVersion(internal.Version)))
 }
