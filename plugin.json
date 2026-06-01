@@ -1,6 +1,6 @@
 {
   "name": "workflow-plugin-monday",
-  "version": "0.1.3",
+  "version": "0.0.0",
   "description": "monday.com integration plugin (~57 step types covering all monday.com resources)",
   "author": "GoCodeAlone",
   "license": "MIT",
