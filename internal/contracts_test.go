@@ -11,7 +11,7 @@ import (
 )
 
 type manifestFile struct {
-	Version string `json:"version"`
+	Version      string `json:"version"`
 	Capabilities struct {
 		ModuleTypes []string `json:"moduleTypes"`
 		StepTypes   []string `json:"stepTypes"`
@@ -53,6 +53,18 @@ func TestPluginManifestVersionAndDownloadsConsistent(t *testing.T) {
 
 	if len(manifest.Downloads) == 0 {
 		t.Fatal("plugin.json: downloads field is empty")
+	}
+
+	if manifest.Version == "0.0.0" {
+		for _, dl := range manifest.Downloads {
+			if !strings.HasPrefix(dl.URL, "https://github.com/GoCodeAlone/workflow-plugin-monday/releases/download/") {
+				t.Errorf("plugin.json: download URL %q does not target workflow-plugin-monday GitHub Releases", dl.URL)
+			}
+			if strings.Contains(dl.URL, "/v0.0.0/") {
+				t.Errorf("plugin.json: download URL %q must not publish the dev sentinel", dl.URL)
+			}
+		}
+		return
 	}
 
 	wantTag := fmt.Sprintf("/v%s/", manifest.Version)
